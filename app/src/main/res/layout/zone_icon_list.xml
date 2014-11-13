@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <!-- <com.example.homecontrol.views.DynamicImageView  -->
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_height="@dimen/grid_imageview_size"
+        android:layout_width="@dimen/grid_imageview_size"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/grid_imageview_padding"
+        android:contentDescription="@string/desc_zone_icon" />
+ 
+       
+</LinearLayout>

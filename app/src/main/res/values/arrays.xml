@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<array name="zone_icons">
+		<!-- <item>@drawable/bed1</item> -->
+		<item>@drawable/bed1ns</item>
+		<item>@drawable/bed2</item>
+		<item>@drawable/bookshelf1</item>
+		<!--<item>@drawable/cabinet1</item>-->
+		<item>@drawable/cabinet1ns</item>
+		<!--<item>@drawable/chair1</item>-->
+		<item>@drawable/chair1ns</item>
+		<!--<item>@drawable/chair2</item>-->
+		<item>@drawable/chair2ns</item>
+		<item>@drawable/chair3</item>
+		<item>@drawable/closet1</item>
+		<item>@drawable/diningset1</item>
+		<item>@drawable/dresser1</item>
+		<item>@drawable/kitchen1</item>
+		<!--<item>@drawable/lamp1</item>-->
+		<item>@drawable/lamp1ns</item>
+		<item>@drawable/officechairs1</item>
+		<!--<item>@drawable/sofa1</item>-->
+		<item>@drawable/sofa1ns</item>
+		<item>@drawable/sofa2</item>
+		<!--<item>@drawable/table1</item>-->
+		<item>@drawable/table1ns</item>
+	</array>
+
+
+</resources>

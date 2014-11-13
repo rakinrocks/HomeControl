@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menuAddComponent"
+        android:title="@string/menu_add_comp" />
+    <item android:id="@+id/menuRemoveZone"
+        android:title="@string/menu_remove_zone" />
+    <item android:id="@+id/menuEditZone"
+        android:title="@string/menu_edit_zone"/>
+</menu>

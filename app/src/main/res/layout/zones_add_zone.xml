@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView 
+        android:id="@+id/tvZonesEnterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/zones_enter_name"/>
+    <EditText
+        android:id="@+id/etZonesPopupName"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/zones_name_hint"
+        android:singleLine="true" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal" >
+   		<Button
+       		android:id="@+id/btnZonesPopupAdd"
+        	android:layout_height="wrap_content"
+        	android:layout_width="wrap_content"
+        	android:text="@string/zones_add" />
+   		<Button
+       		android:id="@+id/btnZonesPopupRemove"
+        	android:layout_height="wrap_content"
+        	android:layout_width="wrap_content"
+        	android:text="@string/zones_cancel" />
+	</LinearLayout>
+</LinearLayout>

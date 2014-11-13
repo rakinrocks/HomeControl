@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    style="@android:style/Theme.Dialog">
+
+    <TextView 
+        android:id="@+id/tvZonesEnterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/zones_enter_name"/>
+    <EditText
+        android:id="@+id/etZonesPopupName"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:inputType="text"
+        android:hint="@string/zones_name_hint"
+        android:singleLine="true" />
+    <TextView 
+        android:id="@+id/tvZonesSelectIcon"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/zones_select_icon" />
+    
+   
+    <GridView
+        android:id="@+id/gvZonesIcons"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:verticalSpacing="7dp"
+        android:horizontalSpacing="7dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:listSelector="@color/listview_zones_selected"
+        android:drawSelectorOnTop="false"
+        android:layout_gravity="center_horizontal" />
+ 	
+</LinearLayout>
