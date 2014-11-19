@@ -7,23 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.homecontrol.R;
+import com.example.homecontrol.view.AnimatedExpandableListView.AnimatedExpandableListAdapter;
 
 import java.util.ArrayList;
 
-public class ZoneAdapter extends BaseExpandableListAdapter {
+public class ZoneAdapter extends AnimatedExpandableListAdapter {
 
 	private Context context;
 	private ZoneList groups;
-    private String[][] children = {
-            { "Arnold", "Barry", "Chuck", "David" },
-            { "Ace", "Bandit", "Cha-Cha", "Deuce" },
-            { "Fluffy", "Snuggles" },
-            { "Goldy", "Bubbles" } };
 	
 	public ZoneAdapter(Context c, ZoneList l){
 		this.context = c;
@@ -31,15 +26,18 @@ public class ZoneAdapter extends BaseExpandableListAdapter {
 	}
 
     public Object getChild(int groupPosition, int childPosition) {
-        return children[groupPosition][childPosition];
+        return groups.get(groupPosition).getModules().get(childPosition);
     }
 
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
 
-    public int getChildrenCount(int groupPosition) {
-        return children[groupPosition].length;
+    public int getRealChildrenCount(int groupPosition) {
+        int size = 0;
+        if (groups.get(groupPosition).getModules() != null)
+            size = groups.get(groupPosition).getModules().size();
+        return size;
     }
 
     public TextView getGenericView() {
@@ -56,11 +54,43 @@ public class ZoneAdapter extends BaseExpandableListAdapter {
         return textView;
     }
 
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
+    public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
-        TextView textView = getGenericView();
+        /*TextView textView = getGenericView();
         textView.setText(getChild(groupPosition, childPosition).toString());
-        return textView;
+        return textView;*/
+        ViewHolder holder;
+
+        if (convertView == null) {
+            // inflate layout
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            convertView = inflater.inflate(R.layout.module_item_list, parent, false);
+
+            // set up viewholder
+            holder = new ViewHolder();
+            holder.name = (TextView) convertView.findViewById(R.id.module_name);
+            holder.status = (TextView) convertView.findViewById(R.id.module_status);
+            holder.type = (TextView) convertView.findViewById(R.id.module_type);
+
+            // store holder with the view
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        holder.name.setText(groups.get(groupPosition).getModules().get(childPosition).getName());
+        int modStatus = groups.get(groupPosition).getModules().get(childPosition).getStatus();
+        String status = "";
+        if (modStatus == Module.MOD_ON) {
+            status = this.context.getResources().getString(R.string.status_on);
+        } else if (modStatus == Module.MOD_OFF) {
+            status = this.context.getResources().getString(R.string.status_off);
+        } else {
+            status = this.context.getResources().getString(R.string.status_not_available);
+        }
+        holder.status.setText(status);
+        holder.type.setText(groups.get(groupPosition).getModules().get(childPosition).getType());
+        return convertView;
     }
 
     public Object getGroup(int groupPosition) {
@@ -124,8 +154,11 @@ public class ZoneAdapter extends BaseExpandableListAdapter {
 	private class ViewHolder {
 		TextView title;
 		TextView subTitle;
-		ImageView icon;
-		
-	}
+        TextView name;
+        TextView status;
+        TextView type;
+        ImageView icon;
+
+    }
 
 }

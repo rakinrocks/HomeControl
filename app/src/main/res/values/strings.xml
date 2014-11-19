@@ -21,17 +21,17 @@
     <!-- Strings for Zones tab -->
     <string name="zones_current_zones">Current Zones : </string>
     <string name="zones_button_add">Add Zone</string>
-	<string name="zones_button_remove">Remove Zone</string>
-	<string name="desc_add_zone">Add zone button</string>
-	<string name="desc_remove_zone">Remove zone button</string>
+    <string name="zones_button_remove">Remove Zone</string>
+    <string name="desc_add_zone">Add zone button</string>
+    <string name="desc_remove_zone">Remove zone button</string>
 
-	<!-- Strings for Zones popups -->
-	<string name="zones_enter_name">Enter new zone name: </string>
-	<string name="zones_name_hint">New name</string>
-	<string name="zones_add">Add</string>
-	<string name="zones_cancel">Cancel</string>
-	<string name="zones_add_dialog_title">Add New Zone</string>
-	<string name="zones_select_icon">Select an icon for the zone</string>
+    <!-- Strings for Zones popups -->
+    <string name="zones_enter_name">Enter new zone name: </string>
+    <string name="zones_name_hint">New name</string>
+    <string name="zones_add">Add</string>
+    <string name="zones_cancel">Cancel</string>
+    <string name="zones_add_dialog_title">Add New Zone</string>
+    <string name="zones_select_icon">Select an icon for the zone</string>
 
     <!-- Strings for Zone context menu -->
     <string name="menu_zone_title">Modify Zone</string>
@@ -54,5 +54,21 @@
         <item>DC 12V Led Color</item>
         <item>DC 12V Led White</item>
     </string-array>
+
+    <!-- Strings for Add Module popups -->
+    <string name="module_zone">Add module for</string>
+    <string name="module_name">Name: </string>
+    <string name="module_status">Status:</string>
+    <string name="module_type">Module:</string>
+
+    <string-array name="module_status">
+        <item>ON</item>
+        <item>OFF</item>
+        <item>N/A</item>
+    </string-array>
+
+    <string name="status_on">ON</string>
+    <string name="status_off">OFF</string>
+    <string name="status_not_available">N/A</string>
 
 </resources>

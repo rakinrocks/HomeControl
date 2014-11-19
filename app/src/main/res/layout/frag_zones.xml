@@ -3,69 +3,69 @@
     android:id="@+id/fragZones"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="@dimen/activity_horizontal_margin"
     android:layout_marginBottom="@dimen/activity_horizontal_margin"
     android:layout_marginLeft="@dimen/activity_vertical_margin"
-    android:layout_marginRight="@dimen/activity_vertical_margin" >
+    android:layout_marginRight="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvNumberZones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/zones_current_zones" />
-    
-    <ExpandableListView
+
+    <com.example.homecontrol.view.AnimatedExpandableListView
         android:id="@+id/lvZones"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
         android:drawSelectorOnTop="false"
-        android:listSelector="@color/listview_zones_selected" >
-    </ExpandableListView>
+        android:listSelector="@color/listview_zones_selected"></com.example.homecontrol.view.AnimatedExpandableListView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal" >
-        
-    	<ImageButton
-    	    android:id="@+id/ibtnAdd"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:src="@drawable/button_add_list"
-    	    android:padding="10dp"
-    	    android:background="@drawable/actionbar_unselected"
-    	    android:contentDescription="@string/desc_add_zone" />
+        android:orientation="horizontal">
 
-    	<ImageButton 
-    	    android:id="@+id/ibtnRemove"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:src="@drawable/button_remove_list"
-    	    android:padding="10dp"
-    	    android:background="@drawable/actionbar_unselected"
-    	    android:contentDescription="@string/desc_remove_zone" />
+        <ImageButton
+            android:id="@+id/ibtnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionbar_unselected"
+            android:contentDescription="@string/desc_add_zone"
+            android:padding="10dp"
+            android:src="@drawable/button_add_list" />
+
+        <ImageButton
+            android:id="@+id/ibtnRemove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionbar_unselected"
+            android:contentDescription="@string/desc_remove_zone"
+            android:padding="10dp"
+            android:src="@drawable/button_remove_list" />
     </LinearLayout>
-    
-    
+
+
     <!-- FOR TESTING - REMOVE BEFORE FINAL IMPLEMENTATION -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal" >
-    
+        android:orientation="horizontal">
+
         <Button
             android:id="@+id/btnMoveSD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Move DB to SD" />
+
         <Button
             android:id="@+id/btnDeleteDB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete DB" />	
+            android:text="Delete DB" />
     </LinearLayout>
 </LinearLayout>
