@@ -56,6 +56,7 @@
     </string-array>
 
     <!-- Strings for Add Module popups -->
+    <string name="modules_add_dialog_title">Add New Module</string>
     <string name="module_zone">Add module for</string>
     <string name="module_name">Name: </string>
     <string name="module_status">Status:</string>

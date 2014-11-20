@@ -114,6 +114,17 @@ public class ZonesDataSource {
 
     }
 
+    public void updateModule(String oldType, String name, int status, String type) {
+        String query = "UPDATE " + HomeDBOpenHelper.TABLE_MODULES + " " +
+                "SET " + HomeDBOpenHelper.COLUMN_MOD_NAME + " = \"" + name + "\", " +
+                HomeDBOpenHelper.COLUMN_MOD_STATUS + " = " + status + ", " +
+                HomeDBOpenHelper.COLUMN_MOD_TYPE + " = \"" + type + "\" " +
+                "WHERE " + HomeDBOpenHelper.COLUMN_MOD_TYPE + " = \"" + oldType + "\"";
+        Log.d(LOGTAG, "(ZonesDataSource) Query: " + query);
+        database.execSQL(query);
+
+    }
+
     public ArrayList<Component> getComponentsForZone(String zone) {
         ArrayList<Component> comps = new ArrayList<Component>();
         String query = "SELECT " + HomeDBOpenHelper.COLUMN_COMP_TYPE + ", " +
@@ -165,6 +176,17 @@ public class ZonesDataSource {
         database.execSQL(qdelete);
 
         Log.i(LOGTAG, "(ZonesDataSource) removeZone() - Zone \"" + z.getName() + "\" deleted!");
+        return true;
+    }
+
+    public boolean removeModule(Module m) {
+        String mdelete = "DELETE " +
+                "FROM " + HomeDBOpenHelper.TABLE_MODULES + " " +
+                "WHERE " + HomeDBOpenHelper.COLUMN_MOD_TYPE + " = \"" + m.getType() + "\"";
+
+        database.execSQL(mdelete);
+
+        Log.i(LOGTAG, "(ZonesDataSource) removeModule() - Module \"" + m.getType() + "\" deleted!");
         return true;
     }
 

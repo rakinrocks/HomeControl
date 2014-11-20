@@ -1,12 +1,16 @@
 package com.example.homecontrol.model;
 
-public class Module {
+import java.io.Serializable;
+
+public class Module implements Serializable {
 
     public static final int TYPE_ERR = -1;
     public static final int MOD_ON = 0;
     public static final int MOD_OFF = 1;
     public static final int MOD_NA = 2;
+    private static final long serialVersionUID = 2041248000771452061L;
 
+    private String _id;
     private String _zone;
     private String _name;    // name of the module
     private int _status;    // status of the module
@@ -31,16 +35,12 @@ public class Module {
         this._type = type;
     }
 
-    public void setModule(String type) {
-        this._type = type;
-    }
-
     /* Get Methods */
+
     public String getZone() {
         return this._zone;
     }
 
-    /* Set Methods */
     public void setZone(String zone) {
         this._zone = zone;
     }
@@ -53,6 +53,8 @@ public class Module {
         this._name = name;
     }
 
+    /* Set Methods */
+
     public int getStatus() {
         return this._status;
     }
@@ -64,5 +66,10 @@ public class Module {
     public String getType() {
         return this._type;
     }
+
+    public void setType(String type) {
+        this._type = type;
+    }
+
 
 }

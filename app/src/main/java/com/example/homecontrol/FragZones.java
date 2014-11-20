@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -26,7 +25,6 @@ import com.example.homecontrol.model.Zone;
 import com.example.homecontrol.model.ZoneAdapter;
 import com.example.homecontrol.model.ZoneList;
 import com.example.homecontrol.view.AnimatedExpandableListView;
-import com.example.homecontrol.view.PopupFragment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +40,7 @@ public class FragZones extends Fragment {
     public static final int REQ_NEW_COMP = 1;
     public static final int REQ_MOD_ZONE = 2;
     public static final int REQ_NEW_MOD = 4;
+    public static final int REQ_MOD_MOD = 5;
     private static final String LOGTAG = "HOMECONTROL";
     AnimatedExpandableListView lvZones;
     ImageButton ibtnAddZone, ibtnRemoveZone;
@@ -54,6 +53,9 @@ public class FragZones extends Fragment {
     Button btnMoveSd, btnDeleteDB;
     /* variable for deleting entries from listZones */
     Zone selZone = null;
+    /* variable for deleting entries from listZones */
+    Module selModule = null;
+
     /*
      * END OF TESTING
 	 */
@@ -74,7 +76,7 @@ public class FragZones extends Fragment {
         zoneSource = new ZonesDataSource(getActivity());
 
 		/*
-		 * FOR TESTING - REMOVE BEFORE FINAL IMPLEMENTATION
+         * FOR TESTING - REMOVE BEFORE FINAL IMPLEMENTATION
 		 */
         btnMoveSd = (Button) view.findViewById(R.id.btnMoveSD);
         btnDeleteDB = (Button) view.findViewById(R.id.btnDeleteDB);
@@ -141,7 +143,7 @@ public class FragZones extends Fragment {
         });
 
         // Listview on child click listener
-        lvZones.setOnChildClickListener(new OnChildClickListener() {
+        /*lvZones.setOnChildClickListener(new OnChildClickListener() {
 
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
@@ -152,7 +154,7 @@ public class FragZones extends Fragment {
 
                 return true;
             }
-        });
+        });*/
 
         /*lvZones.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
@@ -245,7 +247,10 @@ public class FragZones extends Fragment {
             menu.add(0, 2, 0, "Remove Zone");
             menu.add(0, 3, 0, "Add Module");
         } else if (type == AnimatedExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-
+            selModule = listZones.get(group).getModules().get(child);
+            menu.setHeaderTitle("Options for \"" + selModule.getName() + "");
+            menu.add(0, 0, 0, "Edit Module");
+            menu.add(0, 1, 0, "Remove Module");
         }
     }
 
@@ -261,7 +266,21 @@ public class FragZones extends Fragment {
             int groupPos = AnimatedExpandableListView.getPackedPositionGroup(info.packedPosition);
             int childPos = AnimatedExpandableListView.getPackedPositionChild(info.packedPosition);
             //Toast.makeText(getActivity(), title + ": Child " + childPos + " clicked in group " + groupPos, Toast.LENGTH_SHORT).show();
-            return true;
+            selZone = listZones.get(groupPos);
+            selModule = listZones.get(groupPos).getModules().get(childPos);
+            switch (item.getItemId()) {
+
+                case 0: // edit module
+                    addModule(REQ_MOD_MOD, selZone.getName(), selModule);
+                    return true;
+
+                case 1: // remove module
+                    removeModule(selModule, selZone.getName());
+                    return true;
+
+                default:
+                    return super.onContextItemSelected(item);
+            }
         } else if (type == AnimatedExpandableListView.PACKED_POSITION_TYPE_GROUP) {
             int groupPos = AnimatedExpandableListView.getPackedPositionGroup(info.packedPosition);
             //Toast.makeText(getActivity(), title + ": Group " + groupPos + " clicked", Toast.LENGTH_SHORT).show();
@@ -280,8 +299,8 @@ public class FragZones extends Fragment {
                     removeZone();
                     return true;
 
-                case 3: // remove zone
-                    addModule(selZone.getName());
+                case 3: // add module
+                    addModule(REQ_NEW_MOD, selZone.getName(), null);
                     return true;
 
                 default:
@@ -327,6 +346,7 @@ public class FragZones extends Fragment {
         if (resultCode != Activity.RESULT_OK) return;
         String newZoneName = "";
         String oldZoneName = "";
+        Module oldModule;
         int imgResId = -1;
 
         zoneSource.open();
@@ -438,6 +458,33 @@ public class FragZones extends Fragment {
                 // notify adapter to populate ListView
                 zoneAdapter.notifyDataSetChanged();
                 break;
+
+            case REQ_MOD_MOD:
+                oldModule = (Module) data.getSerializableExtra(AddModuleDialog.EXTRA_OLD_MODULE);
+                String newModName = data.getStringExtra(AddModuleDialog.EXTRA_MOD_NAME);
+                int newModStatus = data.getIntExtra(AddModuleDialog.EXTRA_MOD_STATUS, -1);
+                String newModType = data.getStringExtra(AddModuleDialog.EXTRA_MOD_TYPE);
+
+                int zcount = 0;
+                for (Zone tempZone : listZones) {
+                    if (tempZone.getName().equals(oldModule.getZone()))
+                        break;
+                    zcount++;
+                }
+
+                int mcount = 0;
+                for (Module tempModule : listZones.get(zcount).getModules()) {
+                    if (tempModule.getType().equals(oldModule.getType()))
+                        break;
+                    mcount++;
+                }
+
+                listZones.get(zcount).getModules().get(mcount).setName(newModName);
+                listZones.get(zcount).getModules().get(mcount).setStatus(newModStatus);
+                listZones.get(zcount).getModules().get(mcount).setType(newModType);
+                zoneSource.updateModule(oldModule.getType(), newModName, newModStatus, newModType);
+
+                break;
         }
         zoneSource.close();
     }
@@ -477,10 +524,10 @@ public class FragZones extends Fragment {
      * Shows a pop up dialog to add a new module to the selected zone.  Adds the
      * new module to its associated zone and to the database via onActivityResult.
      */
-    public void addModule(String toZone) {
+    public void addModule(int code, String toZone, Module selModule) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        AddModuleDialog dialog = new AddModuleDialog().newInstance(toZone);
-        dialog.setTargetFragment(FragZones.this, REQ_NEW_MOD);
+        AddModuleDialog dialog = new AddModuleDialog().newInstance(listZones, toZone, selModule);
+        dialog.setTargetFragment(FragZones.this, code);
         dialog.show(fm, "addmodule");
     }
 
@@ -500,6 +547,34 @@ public class FragZones extends Fragment {
             selZone = null;
         } else
             Toast.makeText(getActivity(), "Select zone to remove", Toast.LENGTH_SHORT).show();
+        zoneSource.close();
+    }
+
+    /**
+     * Removes a module from the list of modules as well as from
+     * the database.
+     */
+    public void removeModule(Module module, String zName) {
+        zoneSource.open();
+        Zone mzone = null;
+
+        // Find the zone the new module belongs to.
+        for (Zone mz : listZones) {
+            if (mz.getName().equals(zName)) {
+                mzone = mz;
+                break;
+            }
+        }
+
+        // Add the module to the associated zone.
+        if (mzone.getModules() != null)
+            mzone.getModules().remove(module);
+        else {
+            mzone.removeModule(module);
+        }
+        zoneSource.removeModule(module);
+        // notify adapter to populate ListView
+        zoneAdapter.notifyDataSetChanged();
         zoneSource.close();
     }
 
